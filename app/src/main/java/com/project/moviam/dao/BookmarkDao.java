@@ -12,6 +12,10 @@ import com.project.moviam.repository.Bookmark;
 
 import java.util.List;
 
+import io.reactivex.CompletableObserver;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+
 @Dao
 public interface BookmarkDao {
 
@@ -27,18 +31,7 @@ public interface BookmarkDao {
     @Query("SELECT * from bookmark WHERE id= :id")
     Bookmark getBookmarkById(int id);
 
-//    default void insertOrUpdate(Bookmark bookmark)
-//    {
-//        Bookmark bookmarkObject=getBookmarkById(bookmark.getId());
-//        if(bookmarkObject==null)
-//        {
-//            insert(bookmarkObject);
-//        }
-//        else
-//        {
-//            delete(bookmarkObject);
-//        }
-//    }
-
+    @Query("SELECT * from bookmark ORDER BY movieRating DESC")
+    Flowable<List<Bookmark>> getBookmarkByRating();
 
 }

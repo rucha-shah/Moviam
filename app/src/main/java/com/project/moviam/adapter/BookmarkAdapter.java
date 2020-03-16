@@ -18,10 +18,9 @@ import java.util.List;
 
 public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder> {
 
-    MovieResponse movieResponse;
     List<Bookmark> bookmarkList;
     String baseImageUrl = "https://image.tmdb.org/t/p/w185";
-    //PopularMovieAdapterListener popularMovieAdapterListener;
+    BookmarkAdapterListener bookmarkAdapterListener;
 
     public static class BookmarkViewHolder extends RecyclerView.ViewHolder {
         ImageView movieImage;
@@ -32,17 +31,17 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         }
     }
 
-    public BookmarkAdapter(List<Bookmark> bookmarkList) {
+    public BookmarkAdapter(List<Bookmark> bookmarkList,BookmarkAdapterListener bookmarkAdapterListener) {
         this.bookmarkList = bookmarkList;
-        //this.popularMovieAdapterListener = popularMovieAdapterListener;
+        this.bookmarkAdapterListener = bookmarkAdapterListener;
     }
 
     @NonNull
     @Override
     public BookmarkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_recycler_items, parent, false);
-        BookmarkViewHolder popularMoviesHolder = new BookmarkViewHolder(view);
-        return popularMoviesHolder;
+        BookmarkViewHolder bookmarkViewHolder = new BookmarkViewHolder(view);
+        return bookmarkViewHolder;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         holder.movieImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //popularMovieAdapterListener.onMovieClicked(movieResponse.getResults().get(position));
+                bookmarkAdapterListener.onMovieClicked(bookmarkList.get(position));
             }
         });
     }
@@ -66,7 +65,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
             return 0;
     }
 
-    public interface PopularMovieAdapterListener {
-        void onMovieClicked(ResultsItem resultsItem);
+    public interface BookmarkAdapterListener {
+        void onMovieClicked(Bookmark resultsItem);
     }
 }

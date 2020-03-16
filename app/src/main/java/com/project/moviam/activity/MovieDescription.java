@@ -21,6 +21,8 @@ import com.project.moviam.repository.Bookmark;
 import com.project.moviam.ui.bookmarkmovie.BookmarkViewModel;
 import com.squareup.picasso.Picasso;
 
+import io.reactivex.Observable;
+
 
 public class MovieDescription extends AppCompatActivity implements Animation.AnimationListener {
 
@@ -74,7 +76,10 @@ public class MovieDescription extends AppCompatActivity implements Animation.Ani
         Log.d("Movie", "displayMovieDescription: " + this);
         movieTitle.setText(movie_title);
         movieRating.setText(movie_rating);
-        movieReleaseDate.setText("Release Date: " + movie_release_date);
+        if (movie_release_date != null)
+            movieReleaseDate.setText("Release Date: " + movie_release_date);
+        else
+            movieReleaseDate.setText("");
         movieOverview.setText(movie_overview);
 
         moviePoster.startAnimation(animFadein);
@@ -93,9 +98,9 @@ public class MovieDescription extends AppCompatActivity implements Animation.Ani
             bookmarkButton.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBlack)));
         }
 
+
         bookmarkButton.setOnClickListener(new View.OnClickListener() {
-            // BookmarkViewModel bookmarkViewModel = new BookmarkViewModel(getApplication());
-            // Bookmark bookmark = new Bookmark(Integer.parseInt(movie_id), movie_title, movie_overview, movie_poster, movie_cover, Double.parseDouble(movie_rating));
+
             @Override
             public void onClick(View v) {
                 Log.d("Movie", "onClick:" + bookmarkViewModel.findBookmarkById(bookmark));

@@ -11,7 +11,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.project.moviam.dao.BookmarkDao;
 
-@Database(entities = Bookmark.class, version = 1,exportSchema = false)
+
+@Database(entities = Bookmark.class, version = 1, exportSchema = false)
 public abstract class BookmarkDatabase extends RoomDatabase {
 
     private static BookmarkDatabase instance;
@@ -25,26 +26,27 @@ public abstract class BookmarkDatabase extends RoomDatabase {
         return instance;
     }
 
-    private static RoomDatabase.Callback roomCallback=new RoomDatabase.Callback(){
+    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            new PopulateDbAsyncTask(instance).execute();
+            //new PopulateDbAsyncTask(instance).execute();
+
         }
     };
 
-    private static class PopulateDbAsyncTask extends AsyncTask<Void,Void,Void>{
-        private  BookmarkDao bookmarkDao;
-
-        public PopulateDbAsyncTask(BookmarkDatabase db) {
-            bookmarkDao = db.bookmarkDao();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            //bookmarkDao.insert(new Bookmark(0,"a","a","https://image.tmdb.org/t/p/w185/bB42KDdfWkOvmzmYkmK58ZlCa9P.jpg","https://image.tmdb.org/t/p/w185/bB42KDdfWkOvmzmYkmK58ZlCa9P.jpg",0));
-            return null;
-        }
-    }
+//    private static class PopulateDbAsyncTask extends AsyncTask<Void,Void,Void>{
+//        private  BookmarkDao bookmarkDao;
+//
+//        public PopulateDbAsyncTask(BookmarkDatabase db) {
+//            bookmarkDao = db.bookmarkDao();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            //bookmarkDao.insert(new Bookmark(0,"a","a","https://image.tmdb.org/t/p/w185/bB42KDdfWkOvmzmYkmK58ZlCa9P.jpg","https://image.tmdb.org/t/p/w185/bB42KDdfWkOvmzmYkmK58ZlCa9P.jpg",0));
+//            return null;
+//        }
+//    }
 
 }

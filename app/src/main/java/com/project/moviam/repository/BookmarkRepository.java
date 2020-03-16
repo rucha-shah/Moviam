@@ -11,37 +11,43 @@ import com.project.moviam.dao.BookmarkDao;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import io.reactivex.Flowable;
+
 public class BookmarkRepository {
 
     private BookmarkDao bookmarkDao;
     private LiveData<List<Bookmark>> allBookmarks;
+    private Flowable<List<Bookmark>> listFlowable;
 
     public BookmarkRepository(Application application) {
-        BookmarkDatabase bookmarkDatabase=BookmarkDatabase.getInstance(application);
-        bookmarkDao=bookmarkDatabase.bookmarkDao();
-        allBookmarks=bookmarkDao.getAllBookmarkedMovies();
+        BookmarkDatabase bookmarkDatabase = BookmarkDatabase.getInstance(application);
+        bookmarkDao = bookmarkDatabase.bookmarkDao();
+        allBookmarks = bookmarkDao.getAllBookmarkedMovies();
+        listFlowable = bookmarkDao.getBookmarkByRating();
     }
 
-    public void insert(Bookmark bookmark)
-    {
+    public void insert(Bookmark bookmark) {
         new InsertBookmarkAsyncTask(bookmarkDao).execute(bookmark);
     }
 
-    public void delete(Bookmark bookmark)
-    {
+    public void delete(Bookmark bookmark) {
         new DeleteBookmarkAsyncTask(bookmarkDao).execute(bookmark);
     }
 
     public Bookmark findBookmarkById(Bookmark bookmark) throws ExecutionException, InterruptedException {
-      return new FindBookmarkByIdAsyncTask(bookmarkDao).execute(bookmark).get();
+        return new FindBookmarkByIdAsyncTask(bookmarkDao).execute(bookmark).get();
     }
 
 
-    public LiveData<List<Bookmark>> getAllBookmarks(){
+    public LiveData<List<Bookmark>> getAllBookmarks() {
         return allBookmarks;
     }
 
-    private static class InsertBookmarkAsyncTask extends AsyncTask<Bookmark,Void,Void>{
+    public Flowable<List<Bookmark>> getBookmarkByRating() {
+        return listFlowable;
+    }
+
+    private static class InsertBookmarkAsyncTask extends AsyncTask<Bookmark, Void, Void> {
         private BookmarkDao bookmarkDao;
 
         public InsertBookmarkAsyncTask(BookmarkDao bookmarkDao) {
@@ -55,7 +61,7 @@ public class BookmarkRepository {
         }
     }
 
-    private static class DeleteBookmarkAsyncTask extends AsyncTask<Bookmark,Void,Void>{
+    private static class DeleteBookmarkAsyncTask extends AsyncTask<Bookmark, Void, Void> {
         private BookmarkDao bookmarkDao;
 
         public DeleteBookmarkAsyncTask(BookmarkDao bookmarkDao) {
@@ -69,7 +75,7 @@ public class BookmarkRepository {
         }
     }
 
-    private static class FindBookmarkByIdAsyncTask extends AsyncTask<Bookmark,Bookmark,Bookmark>{
+    private static class FindBookmarkByIdAsyncTask extends AsyncTask<Bookmark, Bookmark, Bookmark> {
         private BookmarkDao bookmarkDao;
 
         public FindBookmarkByIdAsyncTask(BookmarkDao bookmarkDao) {
@@ -79,13 +85,9 @@ public class BookmarkRepository {
 
         @Override
         protected Bookmark doInBackground(Bookmark... bookmarks) {
-           return bookmarkDao.getBookmarkById(bookmarks[0].getId());
-           //return null;
+            return bookmarkDao.getBookmarkById(bookmarks[0].getId());
         }
-
-//        @Override
-//        protected void onPostExecute(Bookmark bookmark) {
-//            myBookMark(bookmark);
-//        }
     }
+
+
 }

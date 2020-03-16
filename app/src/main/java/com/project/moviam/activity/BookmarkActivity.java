@@ -1,39 +1,40 @@
 package com.project.moviam.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Database;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.project.moviam.R;
 import com.project.moviam.adapter.BookmarkAdapter;
+import com.project.moviam.data.ResultsItem;
 import com.project.moviam.repository.Bookmark;
-import com.project.moviam.repository.BookmarkDatabase;
-import com.project.moviam.repository.BookmarkRepository;
 import com.project.moviam.ui.bookmarkmovie.BookmarkViewModel;
+
+import org.reactivestreams.Subscription;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Scheduler;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import rx.schedulers.Schedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 
-public class BookmarkActivity extends AppCompatActivity {
+public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapter.BookmarkAdapterListener {
     BookmarkViewModel bookmarkViewModel;
     private RecyclerView recyclerView;
     private BookmarkAdapter bookmarkAdapter;
-    String TAG="Movie";
+    String TAG = "Movie";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,48 +44,63 @@ public class BookmarkActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.movie_list_recycler);
 
         bookmarkViewModel = ViewModelProviders.of(this).get(BookmarkViewModel.class);
-        bookmarkViewModel.getAllBookmarks().observe(this, new Observer<List<Bookmark>>() {
-            @Override
-            public void onChanged(List<Bookmark> bookmarks) {
-                Log.d(TAG, "onChanged: Bookmark");
-                bookmarkAdapter = new BookmarkAdapter(bookmarks);
-                recyclerView.setLayoutManager(new GridLayoutManager(BookmarkActivity.this, 2));
-                recyclerView.setAdapter(bookmarkAdapter);
-
-            }
-        });
-
-        Observable observable=Observable.create(new ObservableOnSubscribe<Bookmark>() {
-            @Override
-            public void subscribe(ObservableEmitter<Bookmark> emitter) throws Exception {
-
-            }
-        });
-
-//        Observable<Bookmark> bookmarkObservable =Observable.fromIterable(BookmarkRepository.getAllBookmarks())
-//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-//
-//        bookmarkObservable.subscribe(new io.reactivex.Observer<Bookmark>() {
+        //View all Bookmarks
+//        bookmarkViewModel.getAllBookmarks().observe(this, new Observer<List<Bookmark>>() {
 //            @Override
-//            public void onSubscribe(Disposable d) {
-//                Log.d(TAG, "onSubscribe: ");
-//            }
+//            public void onChanged(List<Bookmark> bookmarks) {
+//                Log.d(TAG, "onChanged: Bookmark");
+//                bookmarkAdapter = new BookmarkAdapter(bookmarks,BookmarkActivity.this);
+//                recyclerView.setLayoutManager(new GridLayoutManager(BookmarkActivity.this, 2));
+//                recyclerView.setAdapter(bookmarkAdapter);
 //
-//            @Override
-//            public void onNext(Bookmark bookmark) {
-//                Log.d(TAG, "onNext: "+Thread.currentThread().getName());
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Log.e(TAG, "onError: ",e );
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//                Log.d(TAG, "onComplete: ");
 //            }
 //        });
-//    }
+
+
+//RxJava implementation to view bookmarks based on ratings
+        bookmarkViewModel.getBookmarkByRating().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new FlowableSubscriber<List<Bookmark>>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        Log.d(TAG, "onSubscribe:" + s);
+                    }
+
+                    @Override
+                    public void onNext(List<Bookmark> bookmarks) {
+                        Log.d(TAG, "onNext: " + bookmarks);
+                        bookmarkAdapter = new BookmarkAdapter(bookmarks, BookmarkActivity.this);
+                        recyclerView.setLayoutManager(new GridLayoutManager(BookmarkActivity.this, 2));
+                        recyclerView.setAdapter(bookmarkAdapter);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Log.d(TAG, "onError: ");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void onMovieClicked(Bookmark resultsItem) {
+        if (resultsItem != null) {
+            Intent intent = new Intent(this, MovieDescription.class);
+            intent.putExtra("movie_title", resultsItem.getTitle());
+            intent.putExtra("movie_rating", String.valueOf(resultsItem.getMovieRating()));
+            //intent.putExtra("movie_release_date", resultsItem.ge());
+            intent.putExtra("movie_overview", resultsItem.getOverview());
+            intent.putExtra("movie_poster", resultsItem.getPosterPath());
+            intent.putExtra("movie_cover", resultsItem.getCoverPath());
+            intent.putExtra("movie_id", String.valueOf(resultsItem.getId()));
+            startActivity(intent);
+
+        } else {
+            Toast.makeText(this, "Empty object", Toast.LENGTH_SHORT).show();
+        }
     }
 }
