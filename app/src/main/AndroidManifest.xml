@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.BookmarkActivity"></activity>
+        <activity android:name=".activity.BookmarkRating"></activity>
+        <activity android:name=".activity.BookmarkActivity" />
         <activity android:name=".activity.MovieDescription" />
         <activity android:name=".MainActivity">
             <intent-filter>

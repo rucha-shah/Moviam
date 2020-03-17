@@ -1,11 +1,9 @@
 package com.project.moviam.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Database;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,44 +12,59 @@ import android.widget.Toast;
 
 import com.project.moviam.R;
 import com.project.moviam.adapter.BookmarkAdapter;
-
-
 import com.project.moviam.repository.Bookmark;
 import com.project.moviam.ui.bookmarkmovie.BookmarkViewModel;
 
-
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
-public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapter.BookmarkAdapterListener {
+public class BookmarkRating extends AppCompatActivity implements BookmarkAdapter.BookmarkAdapterListener {
+    String TAG = "Movie";
     BookmarkViewModel bookmarkViewModel;
     private RecyclerView recyclerView;
     private BookmarkAdapter bookmarkAdapter;
-    String TAG = "Movie";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bookmark);
+        setContentView(R.layout.activity_bookmark_rating);
 
         recyclerView = findViewById(R.id.movie_list_recycler);
 
         bookmarkViewModel = ViewModelProviders.of(this).get(BookmarkViewModel.class);
 
-        //View all Bookmarks
-        bookmarkViewModel.getAllBookmarks().observe(this, new Observer<List<Bookmark>>() {
+        //RxJava implementation to view bookmarks based on ratings
+        Observable<List<Bookmark>> listObservable = bookmarkViewModel.getBookmarkByRating();
+        Observer<List<Bookmark>> listObserver = new Observer<List<Bookmark>>() {
             @Override
-            public void onChanged(List<Bookmark> bookmarks) {
-                Log.d(TAG, "onChanged: Bookmark");
-                bookmarkAdapter = new BookmarkAdapter(bookmarks,BookmarkActivity.this);
-                recyclerView.setLayoutManager(new GridLayoutManager(BookmarkActivity.this, 2));
+            public void onSubscribe(Disposable d) {
+                Log.d(TAG, "onSubscribe: ");
+            }
+
+            @Override
+            public void onNext(List<Bookmark> bookmarks) {
+                Log.d(TAG, "onNext: " + bookmarks);
+                bookmarkAdapter = new BookmarkAdapter(bookmarks, BookmarkRating.this);
+                recyclerView.setLayoutManager(new GridLayoutManager(BookmarkRating.this, 2));
                 recyclerView.setAdapter(bookmarkAdapter);
 
             }
-        });
 
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "onError: ");
+            }
 
-
+            @Override
+            public void onComplete() {
+                Log.d(TAG, "onComplete: ");
+            }
+        };
+        listObservable.subscribe(listObserver);
     }
 
     @Override

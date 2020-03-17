@@ -2,6 +2,10 @@ package com.project.moviam.repository;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.project.moviam.data.DateConverter;
+
 import java.util.Date;
 
 @Entity(tableName = "bookmark")
@@ -20,13 +24,16 @@ public class Bookmark {
 
     private double movieRating;
 
-    public Bookmark(int id,String title, String overview, String posterPath, String coverPath, double movieRating) {
+    private String movieRelease;
+
+    public Bookmark(int id,String title, String overview, String posterPath, String coverPath, double movieRating, String movieRelease) {
         this.id=id;
         this.title = title;
         this.overview = overview;
         this.posterPath = posterPath;
         this.coverPath = coverPath;
         this.movieRating = movieRating;
+        this.movieRelease=movieRelease;
     }
 
     public int getId() {
@@ -75,5 +82,13 @@ public class Bookmark {
 
     public void setMovieRating(double movieRating) {
         this.movieRating = movieRating;
+    }
+
+    public String getMovieRelease() {
+        return movieRelease;
+    }
+
+    public void setMovieRelease(String movieRelease) {
+        this.movieRelease = movieRelease;
     }
 }

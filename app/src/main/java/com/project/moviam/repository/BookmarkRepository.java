@@ -12,18 +12,19 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 public class BookmarkRepository {
 
     private BookmarkDao bookmarkDao;
     private LiveData<List<Bookmark>> allBookmarks;
-    private Flowable<List<Bookmark>> listFlowable;
+    private Observable<List<Bookmark>> listObservable;
 
     public BookmarkRepository(Application application) {
         BookmarkDatabase bookmarkDatabase = BookmarkDatabase.getInstance(application);
         bookmarkDao = bookmarkDatabase.bookmarkDao();
         allBookmarks = bookmarkDao.getAllBookmarkedMovies();
-        listFlowable = bookmarkDao.getBookmarkByRating();
+        listObservable = bookmarkDao.getBookmarkByRating();
     }
 
     public void insert(Bookmark bookmark) {
@@ -43,8 +44,8 @@ public class BookmarkRepository {
         return allBookmarks;
     }
 
-    public Flowable<List<Bookmark>> getBookmarkByRating() {
-        return listFlowable;
+    public Observable<List<Bookmark>> getBookmarkByRating() {
+        return listObservable;
     }
 
     private static class InsertBookmarkAsyncTask extends AsyncTask<Bookmark, Void, Void> {

@@ -15,19 +15,20 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 public class BookmarkViewModel extends AndroidViewModel {
     private BookmarkRepository repository;
     private LiveData<List<Bookmark>> allBookmarks;
 
-    private Flowable<List<Bookmark>> listFlowable;
+    private Observable<List<Bookmark>> listObservable;
 
     public BookmarkViewModel(@NonNull Application application) {
         super(application);
         repository = new BookmarkRepository(application);
         allBookmarks = repository.getAllBookmarks();
         //bookmarkDatabase = BookmarkDatabase.getInstance(application);
-        listFlowable = repository.getBookmarkByRating();
+        listObservable = repository.getBookmarkByRating();
     }
 
     public void insert(Bookmark bookmark) {
@@ -54,7 +55,7 @@ public class BookmarkViewModel extends AndroidViewModel {
         return allBookmarks;
     }
 
-    public Flowable<List<Bookmark>> getBookmarkByRating() {
-        return listFlowable;
+    public Observable<List<Bookmark>> getBookmarkByRating() {
+        return listObservable;
     }
 }

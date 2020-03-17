@@ -26,18 +26,25 @@
 
     <Button
         android:id="@+id/view_bookmark_button"
-        android:layout_width="361dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="186dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="4dp"
         android:text="View Bookmark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintEnd_toStartOf="@+id/view_bookmark_rating_button"
         app:layout_constraintStart_toStartOf="parent">
 
     </Button>
+
+    <Button
+        android:id="@+id/view_bookmark_rating_button"
+        android:layout_width="195dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="4dp"
+        android:text="Bookmark based on rating"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

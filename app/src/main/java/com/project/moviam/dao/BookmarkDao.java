@@ -15,6 +15,7 @@ import java.util.List;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 
 @Dao
 public interface BookmarkDao {
@@ -31,7 +32,10 @@ public interface BookmarkDao {
     @Query("SELECT * from bookmark WHERE id= :id")
     Bookmark getBookmarkById(int id);
 
+//    @Query("SELECT * from bookmark ORDER BY movieRating DESC")
+//    Flowable<List<Bookmark>> getBookmarkByRating();
+
     @Query("SELECT * from bookmark ORDER BY movieRating DESC")
-    Flowable<List<Bookmark>> getBookmarkByRating();
+    Observable<List<Bookmark>> getBookmarkByRating();
 
 }
