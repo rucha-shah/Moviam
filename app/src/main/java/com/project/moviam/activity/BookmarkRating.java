@@ -18,15 +18,18 @@ import com.project.moviam.ui.bookmarkmovie.BookmarkViewModel;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class BookmarkRating extends AppCompatActivity implements BookmarkAdapter.BookmarkAdapterListener {
     String TAG = "Movie";
     BookmarkViewModel bookmarkViewModel;
     private RecyclerView recyclerView;
     private BookmarkAdapter bookmarkAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,33 +41,59 @@ public class BookmarkRating extends AppCompatActivity implements BookmarkAdapter
         bookmarkViewModel = ViewModelProviders.of(this).get(BookmarkViewModel.class);
 
         //RxJava implementation to view bookmarks based on ratings
-        Observable<List<Bookmark>> listObservable = bookmarkViewModel.getBookmarkByRating();
-        Observer<List<Bookmark>> listObserver = new Observer<List<Bookmark>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(TAG, "onSubscribe: ");
-            }
+        bookmarkViewModel.getBookmarkByRating().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Bookmark>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
 
-            @Override
-            public void onNext(List<Bookmark> bookmarks) {
-                Log.d(TAG, "onNext: " + bookmarks);
-                bookmarkAdapter = new BookmarkAdapter(bookmarks, BookmarkRating.this);
-                recyclerView.setLayoutManager(new GridLayoutManager(BookmarkRating.this, 2));
-                recyclerView.setAdapter(bookmarkAdapter);
+                    @Override
+                    public void onNext(List<Bookmark> bookmarks) {
+                        Log.d(TAG, "onNext: ");
+                        bookmarkAdapter = new BookmarkAdapter(bookmarks, BookmarkRating.this);
+                        recyclerView.setLayoutManager(new GridLayoutManager(BookmarkRating.this, 2));
+                        recyclerView.setAdapter(bookmarkAdapter);
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError: " + e.getLocalizedMessage());
+                    }
 
-            @Override
-            public void onComplete() {
-                Log.d(TAG, "onComplete: ");
-            }
-        };
-        listObservable.subscribe(listObserver);
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+//        Observable<List<Bookmark>> listObservable = bookmarkViewModel.getBookmarkByRating();
+//        Observer<List<Bookmark>> listObserver = new Observer<List<Bookmark>>() {
+//            @Override
+//            public void onSubscribe(Disposable d) {
+//                Log.d(TAG, "onSubscribe: ");
+//            }
+//
+//            @Override
+//            public void onNext(List<Bookmark> bookmarks) {
+//                Log.d(TAG, "onNext: " + bookmarks);
+//                bookmarkAdapter = new BookmarkAdapter(bookmarks, BookmarkRating.this);
+//                recyclerView.setLayoutManager(new GridLayoutManager(BookmarkRating.this, 2));
+//                recyclerView.setAdapter(bookmarkAdapter);
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                Log.d(TAG, "onError: "+e.getLocalizedMessage());
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//                Log.d(TAG, "onComplete: ");
+//            }
+//        };
+//        listObservable.subscribe(listObserver);
     }
 
     @Override

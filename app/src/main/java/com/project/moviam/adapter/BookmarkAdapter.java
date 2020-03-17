@@ -26,7 +26,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     List<Bookmark> bookmarkList;
     String baseImageUrl = "https://image.tmdb.org/t/p/w185";
     BookmarkAdapterListener bookmarkAdapterListener;
-    String TAG="Movie";
+    String TAG = "Movie";
 
     public static class BookmarkViewHolder extends RecyclerView.ViewHolder {
         ImageView movieImage;
@@ -37,32 +37,9 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         }
     }
 
-    public BookmarkAdapter(List<Bookmark> bookmarkList,BookmarkAdapterListener bookmarkAdapterListener) {
+    public BookmarkAdapter(List<Bookmark> bookmarkList, BookmarkAdapterListener bookmarkAdapterListener) {
         this.bookmarkList = bookmarkList;
         this.bookmarkAdapterListener = bookmarkAdapterListener;
-        Observable<List<Bookmark>> listObservable=Observable.just(bookmarkList);
-        Observer<List<Bookmark>> listObserver=new Observer<List<Bookmark>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(TAG, "onSubscribe: ");
-            }
-
-            @Override
-            public void onNext(List<Bookmark> bookmarks) {
-                Log.d(TAG, "onNext: ");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
-            }
-
-            @Override
-            public void onComplete() {
-                Log.d(TAG, "onComplete: ");
-            }
-        };
-        listObservable.subscribe(listObserver);
     }
 
     @NonNull
