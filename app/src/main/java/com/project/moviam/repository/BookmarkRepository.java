@@ -11,14 +11,20 @@ import com.project.moviam.dao.BookmarkDao;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
+import dagger.Module;
+import dagger.Provides;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+
 
 public class BookmarkRepository {
 
     private BookmarkDao bookmarkDao;
     private LiveData<List<Bookmark>> allBookmarks;
     private Observable<List<Bookmark>> listObservable;
+
 
     public BookmarkRepository(Application application) {
         BookmarkDatabase bookmarkDatabase = BookmarkDatabase.getInstance(application);

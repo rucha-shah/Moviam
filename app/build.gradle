@@ -60,6 +60,10 @@ dependencies {
     implementation "androidx.room:room-rxjava2:2.2.4" //For RxJava Support
     annotationProcessor "android.arch.persistence.room:compiler:2.2.4"
 
+    //Dagger
+    implementation 'com.google.dagger:dagger-android:2.16'
+    implementation 'com.google.dagger:dagger-android-support:2.16'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.16'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

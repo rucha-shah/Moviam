@@ -1,6 +1,7 @@
 package com.project.moviam.ui.popularmovie;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +28,13 @@ import com.project.moviam.adapter.PopularMoviesAdapter;
 import com.project.moviam.data.MovieResponse;
 import com.project.moviam.data.ResultsItem;
 
+import javax.inject.Inject;
+
 public class PopularMovieFragment extends Fragment implements LifecycleOwner, PopularMoviesAdapter.PopularMovieAdapterListener, Animation.AnimationListener {
 
-    private PopularMovieViewModel mViewModel;
+    @Inject
+    PopularMovieViewModel mViewModel;
+
     RecyclerView recyclerView;
     Animation animFadein;
     PopularMoviesAdapter popularMoviesAdapter;
@@ -53,6 +58,12 @@ public class PopularMovieFragment extends Fragment implements LifecycleOwner, Po
     public void onResume() {
         super.onResume();
        // recyclerView.startAnimation(animFadein);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+
+        super.onAttach(context);
     }
 
     @Override

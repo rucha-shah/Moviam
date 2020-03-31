@@ -5,11 +5,14 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.project.moviam.R;
 import com.project.moviam.api.ApiInterface;
 import com.project.moviam.data.MovieResponse;
 import com.project.moviam.retrofit.RetrofitInstance;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,16 +20,20 @@ import retrofit2.Response;
 
 public class PopularMovieViewModel extends ViewModel {
     MutableLiveData<MovieResponse> moviesLiveData;
+
+    @Inject
     ApiInterface retrofitInstance;
     MovieResponse movieResponseList;
 
     public PopularMovieViewModel() {
         moviesLiveData = new MutableLiveData<>();
         init(); //Call API in init method
+
     }
 
     public void init() {
-        retrofitInstance = RetrofitInstance.getRetrofitInstance().create(ApiInterface.class);
+
+       // retrofitInstance = RetrofitInstance.getRetrofitInstance().create(ApiInterface.class);
         Call<MovieResponse> callMovieResponseList = retrofitInstance.getPopularMovies("1570bcf686c0429518251321690baa6a");
         callMovieResponseList.enqueue(new Callback<MovieResponse>() {
             @Override

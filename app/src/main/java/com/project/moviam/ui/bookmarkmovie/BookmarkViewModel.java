@@ -5,16 +5,12 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
-import com.project.moviam.dao.BookmarkDao;
 import com.project.moviam.repository.Bookmark;
-import com.project.moviam.repository.BookmarkDatabase;
 import com.project.moviam.repository.BookmarkRepository;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 public class BookmarkViewModel extends AndroidViewModel {
