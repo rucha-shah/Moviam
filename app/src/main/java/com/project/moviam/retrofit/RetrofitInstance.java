@@ -9,7 +9,7 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@Singleton
+
 @Module
 public class RetrofitInstance {
 //    private static Retrofit retrofit = null;
@@ -23,6 +23,7 @@ public class RetrofitInstance {
 //        }
 //        return retrofit;
 //    }
+@Singleton
     @Provides
     public ApiInterface getRetrofitInstance(){
         return new Retrofit.Builder().baseUrl("https://api.themoviedb.org/3/")

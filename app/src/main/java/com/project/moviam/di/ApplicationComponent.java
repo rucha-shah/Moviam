@@ -6,6 +6,7 @@ import com.project.moviam.ui.popularmovie.PopularMovieFragment;
 import com.project.moviam.ui.popularmovie.PopularMovieViewModel;
 
 import dagger.Component;
+import dagger.android.support.DaggerApplication;
 
 @Component(
 
