@@ -22,19 +22,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.moviam.MainActivity;
 import com.project.moviam.R;
 import com.project.moviam.activity.MovieDescription;
 import com.project.moviam.adapter.PopularMoviesAdapter;
 import com.project.moviam.data.MovieResponse;
 import com.project.moviam.data.ResultsItem;
+import com.project.moviam.di.ApplicationComponent;
 
 import javax.inject.Inject;
 
 public class PopularMovieFragment extends Fragment implements LifecycleOwner, PopularMoviesAdapter.PopularMovieAdapterListener, Animation.AnimationListener {
 
-    @Inject
-    PopularMovieViewModel mViewModel;
 
+    PopularMovieViewModel mViewModel;
     RecyclerView recyclerView;
     Animation animFadein;
     PopularMoviesAdapter popularMoviesAdapter;
@@ -62,7 +63,6 @@ public class PopularMovieFragment extends Fragment implements LifecycleOwner, Po
 
     @Override
     public void onAttach(@NonNull Context context) {
-
         super.onAttach(context);
     }
 

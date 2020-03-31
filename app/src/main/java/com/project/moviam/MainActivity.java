@@ -10,12 +10,12 @@ import android.widget.Button;
 
 import com.project.moviam.activity.BookmarkActivity;
 import com.project.moviam.activity.BookmarkRating;
+import com.project.moviam.di.ApplicationComponent;
 import com.project.moviam.ui.popularmovie.PopularMovieFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     Button view_bookmark_button;
-
     Button view_bookmark_rating_button;
 
     @Override
@@ -23,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //ApplicationComponent applicationComponent=DaggerApplicationComponent
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.popularmovie_container, PopularMovieFragment.newInstance())
                 .commitNow();
+
 
 
         view_bookmark_button = findViewById(R.id.view_bookmark_button);
