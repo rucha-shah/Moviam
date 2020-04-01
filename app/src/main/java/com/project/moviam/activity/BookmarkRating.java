@@ -12,11 +12,15 @@ import android.widget.Toast;
 
 import com.project.moviam.R;
 import com.project.moviam.adapter.BookmarkAdapter;
+import com.project.moviam.di.ViewModelFactory;
 import com.project.moviam.repository.Bookmark;
 import com.project.moviam.ui.bookmarkmovie.BookmarkViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -31,14 +35,19 @@ public class BookmarkRating extends AppCompatActivity implements BookmarkAdapter
     private RecyclerView recyclerView;
     private BookmarkAdapter bookmarkAdapter;
 
+    @Inject
+    ViewModelFactory viewModelFactory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmark_rating);
 
         recyclerView = findViewById(R.id.movie_list_recycler);
 
-        bookmarkViewModel = ViewModelProviders.of(this).get(BookmarkViewModel.class);
+        bookmarkViewModel = ViewModelProviders.of(this,viewModelFactory).get(BookmarkViewModel.class);
 
         //RxJava implementation to view bookmarks based on ratings
         bookmarkViewModel.getBookmarkByRating().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

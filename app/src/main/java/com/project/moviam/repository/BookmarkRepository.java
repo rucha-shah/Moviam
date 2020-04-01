@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Query;
 
 import com.project.moviam.dao.BookmarkDao;
+import com.project.moviam.di.ApplicationContext;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -25,7 +26,7 @@ public class BookmarkRepository {
     private LiveData<List<Bookmark>> allBookmarks;
     private Observable<List<Bookmark>> listObservable;
 
-
+    @Inject
     public BookmarkRepository(Application application) {
         BookmarkDatabase bookmarkDatabase = BookmarkDatabase.getInstance(application);
         bookmarkDao = bookmarkDatabase.bookmarkDao();

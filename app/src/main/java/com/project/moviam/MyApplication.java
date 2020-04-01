@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.project.moviam.di.ApplicationComponent;
-//import com.project.moviam.di.DaggerApplicationComponent;
+import com.project.moviam.di.ApplicationModule;
+import com.project.moviam.di.DaggerApplicationComponent;
 
 import javax.inject.Inject;
 
@@ -24,8 +25,10 @@ public class MyApplication extends Application implements HasActivityInjector {
     @Override
     public void onCreate() {
         super.onCreate();
-//        DaggerApplicationComponent.builder()
-//                .build()
-//                .inject(this);
+        DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build()
+                .inject(this);
+
     }
 }

@@ -24,10 +24,10 @@ public class BookmarkViewModel extends ViewModel {
     private Observable<List<Bookmark>> listObservable;
 
     @Inject
-    public BookmarkViewModel(@NonNull Application application,BookmarkRepository repository) {
+    public BookmarkViewModel(BookmarkRepository bookmarkRepository) {
         //super(application);
         //repository = new BookmarkRepository(application);
-        this.repository=repository;
+        this.repository=bookmarkRepository;
         allBookmarks = repository.getAllBookmarks();
         //bookmarkDatabase = BookmarkDatabase.getInstance(application);
         listObservable = repository.getBookmarkByRating();

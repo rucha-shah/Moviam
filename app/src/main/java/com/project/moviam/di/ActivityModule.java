@@ -2,6 +2,8 @@ package com.project.moviam.di;
 
 import com.project.moviam.MainActivity;
 import com.project.moviam.activity.BookmarkActivity;
+import com.project.moviam.activity.BookmarkRating;
+import com.project.moviam.activity.MovieDescription;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -14,4 +16,10 @@ public abstract class ActivityModule {
 
     @ContributesAndroidInjector()
     abstract BookmarkActivity contributeBookmarkActivity();
+
+    @ContributesAndroidInjector()
+    abstract BookmarkRating contributeBookmarkRating();
+
+    @ContributesAndroidInjector()
+    abstract MovieDescription contributeMovieDescription();
 }

@@ -1,6 +1,7 @@
 package com.project.moviam.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -15,12 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.moviam.R;
+import com.project.moviam.di.ViewModelFactory;
 import com.project.moviam.repository.Bookmark;
 import com.project.moviam.ui.bookmarkmovie.BookmarkViewModel;
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 
 public class MovieDescription extends AppCompatActivity implements Animation.AnimationListener {
+
 
     ImageView moviePoster;
     ImageView movieCover;
@@ -33,10 +40,17 @@ public class MovieDescription extends AppCompatActivity implements Animation.Ani
     Animation animFadein;
     BookmarkViewModel bookmarkViewModel;
 
+    @Inject
+    ViewModelFactory viewModelFactory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_description);
+        bookmarkViewModel = ViewModelProviders.of(this,viewModelFactory).get(BookmarkViewModel.class);
 
         displayMovieDescription();
     }
@@ -85,7 +99,7 @@ public class MovieDescription extends AppCompatActivity implements Animation.Ani
         movieReleaseDate.startAnimation(animFadein);
         movieOverview.startAnimation(animFadein);
 
-        bookmarkViewModel = new BookmarkViewModel(getApplication());
+        //bookmarkViewModel = new BookmarkViewModel(getApplication());
         Bookmark bookmark = new Bookmark(Integer.parseInt(movie_id), movie_title, movie_overview, movie_poster, movie_cover, Double.parseDouble(movie_rating), movie_release_date);
 
         if (bookmarkViewModel.findBookmarkById(bookmark) != null) {
