@@ -20,18 +20,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PopularMovieViewModel extends ViewModel {
-    MutableLiveData<MovieResponse> moviesLiveData;
 
+    MutableLiveData<MovieResponse> moviesLiveData;
+    String API_KEY="1570bcf686c0429518251321690baa6a";
 
     ApiInterface retrofitInstance;
 
     MovieResponse movieResponseList;
 
-    public PopularMovieViewModel() {
-        moviesLiveData = new MutableLiveData<>();
-        init(); //Call API in init method
-
-    }
+//    public PopularMovieViewModel() {
+//        moviesLiveData = new MutableLiveData<>();
+//        init(); //Call API in init method
+//
+//    }
 
     @Inject
     public PopularMovieViewModel(ApiInterface retrofitInstance){
@@ -43,10 +44,10 @@ public class PopularMovieViewModel extends ViewModel {
     }
 
     public void init() {
+        //No need of the below statement as now we are instantiating with dagger
+       //retrofitInstance = RetrofitInstance.getRetrofitInstance().create(ApiInterface.class);
 
-       // retrofitInstance = RetrofitInstance.getRetrofitInstance().create(ApiInterface.class);
-
-        Call<MovieResponse> callMovieResponseList = retrofitInstance.getPopularMovies("1570bcf686c0429518251321690baa6a");
+        Call<MovieResponse> callMovieResponseList = retrofitInstance.getPopularMovies(API_KEY);
         callMovieResponseList.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {

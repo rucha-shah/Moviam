@@ -3,9 +3,7 @@ package com.project.moviam.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,10 +18,6 @@ import com.project.moviam.R;
 import com.project.moviam.repository.Bookmark;
 import com.project.moviam.ui.bookmarkmovie.BookmarkViewModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.Date;
-
-import io.reactivex.Observable;
 
 
 public class MovieDescription extends AppCompatActivity implements Animation.AnimationListener {

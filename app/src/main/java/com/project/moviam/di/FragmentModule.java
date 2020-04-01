@@ -1,4 +1,4 @@
-package com.project.moviam.ui;
+package com.project.moviam.di;
 
 import com.project.moviam.ui.popularmovie.PopularMovieFragment;
 

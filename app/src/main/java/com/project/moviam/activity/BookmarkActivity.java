@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Database;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,14 +17,26 @@ import com.project.moviam.R;
 import com.project.moviam.adapter.BookmarkAdapter;
 
 
+import com.project.moviam.di.ViewModelFactory;
 import com.project.moviam.repository.Bookmark;
 import com.project.moviam.ui.bookmarkmovie.BookmarkViewModel;
 
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.AndroidSupportInjection;
+import dagger.android.support.HasSupportFragmentInjector;
+
 
 public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapter.BookmarkAdapterListener {
+
+    @Inject
+    ViewModelFactory viewModelFactory;
+
     BookmarkViewModel bookmarkViewModel;
     private RecyclerView recyclerView;
     private BookmarkAdapter bookmarkAdapter;
@@ -31,12 +44,15 @@ public class BookmarkActivity extends AppCompatActivity implements BookmarkAdapt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmark);
 
         recyclerView = findViewById(R.id.movie_list_recycler);
 
-        bookmarkViewModel = ViewModelProviders.of(this).get(BookmarkViewModel.class);
+
+        bookmarkViewModel = ViewModelProviders.of(this,viewModelFactory).get(BookmarkViewModel.class);
 
         //View all Bookmarks
         bookmarkViewModel.getAllBookmarks().observe(this, new Observer<List<Bookmark>>() {

@@ -11,6 +11,8 @@ import com.project.moviam.repository.BookmarkRepository;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 
 public class BookmarkViewModel extends AndroidViewModel {
@@ -19,6 +21,7 @@ public class BookmarkViewModel extends AndroidViewModel {
 
     private Observable<List<Bookmark>> listObservable;
 
+    @Inject
     public BookmarkViewModel(@NonNull Application application) {
         super(application);
         repository = new BookmarkRepository(application);

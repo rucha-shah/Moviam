@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //ApplicationComponent applicationComponent=DaggerApplicationComponent
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.popularmovie_container, PopularMovieFragment.newInstance())
                 .commitNow();

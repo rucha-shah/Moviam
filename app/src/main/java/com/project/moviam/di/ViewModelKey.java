@@ -1,4 +1,4 @@
-package com.project.moviam.ui;
+package com.project.moviam.di;
 
 
 import androidx.lifecycle.ViewModel;

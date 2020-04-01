@@ -1,6 +1,5 @@
 package com.project.moviam.ui.popularmovie;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,27 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.moviam.MainActivity;
 import com.project.moviam.R;
 import com.project.moviam.activity.MovieDescription;
 import com.project.moviam.adapter.PopularMoviesAdapter;
 import com.project.moviam.data.MovieResponse;
 import com.project.moviam.data.ResultsItem;
-import com.project.moviam.di.ApplicationComponent;
-import com.project.moviam.ui.ViewModelFactory;
+import com.project.moviam.di.ViewModelFactory;
 
 import javax.inject.Inject;
 
@@ -67,7 +62,6 @@ public class PopularMovieFragment extends Fragment implements LifecycleOwner, Po
 
     @Override
     public void onAttach(@NonNull Context context) {
-
         super.onAttach(context);
     }
 
