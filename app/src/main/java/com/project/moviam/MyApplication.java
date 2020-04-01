@@ -7,6 +7,7 @@ import com.project.moviam.di.DaggerApplicationComponent;
 
 public class MyApplication extends Application {
 
-    ApplicationComponent applicationComponent= DaggerApplicationComponent.create();
     //ApplicationComponent applicationComponent=
+    //ApplicationComponent applicationComponent=
+    ApplicationComponent applicationComponent= DaggerApplicationComponent.create();
 }

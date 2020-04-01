@@ -29,12 +29,16 @@ import com.project.moviam.adapter.PopularMoviesAdapter;
 import com.project.moviam.data.MovieResponse;
 import com.project.moviam.data.ResultsItem;
 import com.project.moviam.di.ApplicationComponent;
+import com.project.moviam.ui.ViewModelFactory;
 
 import javax.inject.Inject;
 
+import dagger.android.support.AndroidSupportInjection;
+
 public class PopularMovieFragment extends Fragment implements LifecycleOwner, PopularMoviesAdapter.PopularMovieAdapterListener, Animation.AnimationListener {
 
-
+    @Inject
+    ViewModelFactory viewModelFactory;
     PopularMovieViewModel mViewModel;
     RecyclerView recyclerView;
     Animation animFadein;
@@ -63,14 +67,22 @@ public class PopularMovieFragment extends Fragment implements LifecycleOwner, Po
 
     @Override
     public void onAttach(@NonNull Context context) {
+
         super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AndroidSupportInjection.inject(this);
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mViewModel = ViewModelProviders.of(this).get(PopularMovieViewModel.class);
+        mViewModel = ViewModelProviders.of(this,viewModelFactory).get(PopularMovieViewModel.class);
         mViewModel.moviesLiveData.observe(this, movieListUpdateObserver);
 
     }

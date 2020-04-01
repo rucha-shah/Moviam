@@ -22,6 +22,7 @@ import retrofit2.Response;
 public class PopularMovieViewModel extends ViewModel {
     MutableLiveData<MovieResponse> moviesLiveData;
 
+
     ApiInterface retrofitInstance;
 
     MovieResponse movieResponseList;
@@ -35,6 +36,10 @@ public class PopularMovieViewModel extends ViewModel {
     @Inject
     public PopularMovieViewModel(ApiInterface retrofitInstance){
         this.retrofitInstance=retrofitInstance;
+
+        moviesLiveData = new MutableLiveData<>();
+        init(); //Call API in init method
+
     }
 
     public void init() {
