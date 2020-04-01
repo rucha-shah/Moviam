@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.project.moviam.repository.Bookmark;
 import com.project.moviam.repository.BookmarkRepository;
 
@@ -15,16 +17,17 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
-public class BookmarkViewModel extends AndroidViewModel {
-    private BookmarkRepository repository;
+public class BookmarkViewModel extends ViewModel {
+    BookmarkRepository repository;
     private LiveData<List<Bookmark>> allBookmarks;
 
     private Observable<List<Bookmark>> listObservable;
 
     @Inject
-    public BookmarkViewModel(@NonNull Application application) {
-        super(application);
-        repository = new BookmarkRepository(application);
+    public BookmarkViewModel(@NonNull Application application,BookmarkRepository repository) {
+        //super(application);
+        //repository = new BookmarkRepository(application);
+        this.repository=repository;
         allBookmarks = repository.getAllBookmarks();
         //bookmarkDatabase = BookmarkDatabase.getInstance(application);
         listObservable = repository.getBookmarkByRating();
