@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    tools:context=".activity.MovieDescription"
-    >
+>
 
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    tools:context=".activity.MovieDescription">
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/movie_cover_image"
         android:layout_width="400dp"
@@ -17,6 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <View
         android:id="@+id/divider"
@@ -85,6 +93,7 @@
 
     </LinearLayout>
 
+
     <View
         android:id="@+id/divider2"
         android:layout_width="412dp"
@@ -139,15 +148,13 @@
         android:layout_width="47dp"
         android:layout_height="53dp"
         android:layout_marginStart="180dp"
-        android:layout_marginTop="100dp"
         android:layout_marginEnd="180dp"
         android:backgroundTint="@color/design_default_color_on_primary"
         android:tint="@color/colorBlack"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_bookmark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
